@@ -1,9 +1,9 @@
 module KlineChartQuantGo
 
-go 1.26.0
+go 1.27.0
 
 require (
-	github.com/bensema/gotdx v0.0.0-20260814091632-c6958ea51ca5
+	github.com/bensema/gotdx v0.0.0-20260829054546-d2b25b98e97e
 	github.com/gin-gonic/gin v1.12.0
 	github.com/google/uuid v1.6.0
 	github.com/gorilla/websocket v1.5.3
