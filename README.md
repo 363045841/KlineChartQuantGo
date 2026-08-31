@@ -37,6 +37,7 @@ go build -o binance-api.exe ./services/binance-api
 | 变量 | 默认值 | 说明 |
 |---|---|---|
 | `PORT` | `8080` | HTTP 服务端口 |
+| `SYMBOL_DB_PATH` | `data/tdx-symbols.db` | 证券目录 SQLite 快照；每 24 小时刷新 |
 | `GOTDX_AUTO_SELECT` | — | 设为 `"1"` 自动选择最快服务器 |
 | `GOTDX_MAIN_HOSTS` | 内置列表 | 覆盖主站探测地址（逗号分隔） |
 | `GOTDX_EX_HOSTS` | 内置列表 | 覆盖行情探测地址（逗号分隔） |
@@ -62,6 +63,7 @@ go build -o binance-api.exe ./services/binance-api
 | POST | `/api/v1/market-data/instruments/search` | 品种目录搜索 |
 | POST | `/api/v1/market-data/bars` | K 线（UTC 毫秒区间） |
 | POST | `/api/v1/market-data/timeshare` | 分时（交易日 YYYY-MM-DD） |
+| POST | `/api/v1/market-data/timeshare/range` | 多日分时（`endTradingDate` + `days`，上限 20 个交易日） |
 
 确定性错误码（触发前端请求流转）：`UNSUPPORTED_CAPABILITY`、`INSTRUMENT_NOT_FOUND`；上游故障为 `UPSTREAM_UNAVAILABLE`（不流转）。
 
@@ -105,7 +107,7 @@ go build -o binance-api.exe ./services/binance-api
 
 ## 技术栈
 
-- **Go 1.26** + Gin
+- **Go 1.27** + Gin
 - **gotdx** — 通达信协议 Go 实现（tdx-api）
 - **gorilla/websocket** — 币安 WebSocket（binance-api）
-- 无数据库，纯实时代理转发
+- **modernc.org/sqlite** — 证券目录本地快照（纯内存代理，实时转发）
